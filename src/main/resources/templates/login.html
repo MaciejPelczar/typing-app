@@ -11,15 +11,15 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Typing App</a>
+    <a class="navbar-brand" th:href="@{/}">Typing App</a>
     <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!--        <li class="nav-item">-->
-        <!--          <a aria-current="page" class="nav-link active" th:href="@{/}" >All Posts</a>-->
-        <!--        </li>-->
+        <li class="nav-item">
+          <a aria-current="page" class="nav-link active" th:href="@{/register}" >Register</a>
+        </li>
       </ul>
     </div>
   </div>
@@ -75,11 +75,10 @@
   </div>
 </div>
 <footer class="footer-copyright text-center bg-dark py-3"
-        style="position:fixed; width:100%; bottom:0; color:white"
->
+        style="position:fixed; width:100%; bottom:0; color:white">
   <div>
     <strong>
-      Copyright &copy; 2022 All rights reserved.
+      Copyright &copy;Maciej Pelczar 2022 All rights reserved.
     </strong>
   </div>
 </footer>

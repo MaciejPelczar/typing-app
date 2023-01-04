@@ -32,12 +32,14 @@ public class WebSpringSecurity {
             http.csrf().disable()
                     .authorizeHttpRequests((authorize) ->
                             authorize.requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll()
-                                    .requestMatchers(new AntPathRequestMatcher("/index/**")).permitAll()
-//                                    .requestMatchers(new AntPathRequestMatcher("/index/**")).hasAnyRole("ADMIN", "USER")
+                                    .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                                    .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
+                                    .requestMatchers(new AntPathRequestMatcher("/menu/**")).hasAnyRole("ADMIN", "USER")
+                                    .requestMatchers(new AntPathRequestMatcher("/lesson/**")).hasAnyRole("ADMIN", "USER")
                     )
                     .formLogin(form -> form
                             .loginPage("/login")
-                            .defaultSuccessUrl("/index")
+                            .defaultSuccessUrl("/")
                             .loginProcessingUrl("/login")
                             .permitAll()
                     ).logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -51,5 +53,4 @@ public class WebSpringSecurity {
         builder.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
-
 }

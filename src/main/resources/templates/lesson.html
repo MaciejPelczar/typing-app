@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{app/header :: header}"></div>
+<body>
+<div th:replace="~{app/header :: navbar}"></div>
+<div class="container">
+  <div class="row col-md-12">
+    <div class="card">
+      <div class="card-header mb-0">
+        <h3 class="text">Lesson <span class="fst-italic fw-normal" th:text="${exercise.number}"></span>
+         Level <span class="text-lowercase fst-italic fw-normal" th:text="${exercise.level.name}"></span></h3>
+        <div>
+          <p class="fs-4" ><span>Practice Time:  </span><span id="minutes">00</span>:<span id="seconds" >00</span>:<span id="tens">00</span></p>
+        </div>
+      </div>
+      <div class="card-body">
+        <form method="post"
+              role="form"
+              th:action="@{/menu/stop}"
+              th:object="${exercise}">
+          <div class="form-group mb-1">
+            <label class="form-label">Exercise text</label>
+            <div class="card shadow p-3 mb-1 bg-body rounded">
+              <div class="card-body">
+                <output th:key type="text" id="originalText" th:text="*{text}">...></output>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+          <div class="card-body">
+            <form method="post"
+                  role="form"
+                  th:action="@{/lesson}"
+                  th:object="${exercise}">
+              <div class="mb-1">
+                <label for="inputText" class="form-label">You exercise text</label>
+                <textarea class="form-control"  rows="3"  id="inputText"  oninput="compareExercises()"></textarea>
+              </div>
+                <textarea style="display: none;" id="time" name="time"></textarea>
+                <textarea style="display: none;" id="lessonNumb" name="lessonNumb" th:text="${exercise.number}"></textarea>
+                <textarea style="display: none;" id="levelName" name="levelName" th:text="${exercise.level.name}"></textarea>
+                <textarea style="display: none;" id="failsNumber" name="failsNumber"></textarea>
+              <div class="form-group mb-2">
+                <button  style="display: none;" type="submit" name="stopp" id="stopp" class="btn btn-primary">Stop</button>
+              </div>
+            </form>
+              <form method="get"
+                    role="form"
+                    th:action="@{/lesson}"
+                    th:object="${exercise}">
+              <div class="form-group mb-2">
+                <button type="button" name="pause" id="pause" class="btn btn-primary">Pause</button>
+                <button type="submit" name="stop" id="stop" class="btn btn-primary" disabled>Reset</button>
+                <button type="submit" name="back" id="back" class="btn btn-primary">Back to menu</button>
+              </div>
+        </form>
+      </div>
+      <div class="card-body">
+          <label for="inputText" class="form-label">Number of errors: </label>
+          <output th:key type="text" id="fail" >0</output>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br /><br />
+<div th:replace="~{app/footer :: footer}"></div>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  var text = [[${exercise.text}]];
+  var wrongInputCounter = 0;
+  var inputText = document.getElementById('inputText');
+  var originalText = document.getElementById('originalText');
+
+  function compareExercises() {
+    var valueInput = inputText.value;
+    var valueOriginal = originalText.value;
+    let chars = text.split('');
+    var lenghtInput = valueInput.length;
+    let charInput = valueInput.charAt(lenghtInput - 1);
+    let charOriginal = text.charAt(lenghtInput - 1);
+    if (lenghtInput <= text.length + 2) {
+
+      if (lenghtInput >= text.length+1) {
+        var minutes = document.getElementById('minutes').textContent;
+        var sec = document.getElementById('seconds').textContent;
+        var tens = document.getElementById('tens').textContent;
+        document.getElementById('time').innerHTML = minutes+":"+sec+":"+tens;
+        document.getElementById('failsNumber').innerHTML = document.getElementById('fail').textContent;
+        document.getElementById('stopp').click();
+
+      }
+      if (charInput === charOriginal) {
+        inputText.style.backgroundColor = 'lightgreen';
+        let str = ""
+        for (let i = 0; i < lenghtInput; i++) {
+          str = str + chars[i];
+        }
+        let str1 = ""
+        for (let i = lenghtInput; i < text.length; i++) {
+          str1 = str1 + chars[i];
+        }
+        document.getElementById('originalText').innerHTML = str.fontcolor('green') + "➤".fontcolor('green') + str1;
+        document.querySelector('#stop').disabled = false;
+      } else {
+        wrongInputCounter++;
+        document.getElementById('fail').innerHTML = ""+wrongInputCounter;
+        let str = ""
+        for (let i = 0; i < lenghtInput - 1; i++) {
+          str = str + chars[i];
+        }
+        inputText.style.backgroundColor = '#F96262';
+        // document.querySelector('#stop').disabled = true;
+        document.getElementById("inputText").disabled = true;
+        document.addEventListener("keydown", KeyCheck);
+        function KeyCheck(event) {
+          var KeyID = event.keyCode;
+          if (KeyID === 8) document.getElementById("inputText").disabled = false;
+          if (KeyID === 8) document.getElementById("inputText").focus();
+        }
+      }
+    }
+  }
+  /*]]>*/
+</script>
+<script>
+  window.onload = function () {
+    var seconds = 0;
+    var tens = 0;
+    var minutes = 0;
+    var appendTens = document.getElementById("tens")
+    var appendSeconds = document.getElementById("seconds")
+    var appendMinutes = document.getElementById("minutes")
+    var buttonStop = document.getElementById('button-stop');
+    var buttonPause = document.getElementById('pause');
+    var Interval ;
+    var start = document.getElementById("inputText");
+
+    start.onkeydown= function() {
+      clearInterval(Interval);
+      Interval = setInterval(startTimer, 10);
+    }
+
+    buttonPause.onclick = function() {
+      clearInterval(Interval);
+    }
+
+    function startTimer () {
+      tens++;
+      if(tens <= 9){
+        appendTens.innerHTML = "0" + tens;
+      }
+      if (tens > 9){
+        appendTens.innerHTML = tens;
+      }
+      if (tens > 99) {
+        console.log("seconds");
+        seconds++;
+        appendSeconds.innerHTML = "0" + seconds;
+        tens = 0;
+        appendTens.innerHTML = "0" + 0;
+      }
+      if (seconds > 9){
+        appendSeconds.innerHTML = seconds;
+      }
+      if (seconds > 59){
+        minutes ++;
+        appendMinutes.innerHTML = "0" + minutes;
+        seconds = 0;
+        appendSeconds.innerHTML = "0" + 0;
+      }
+      if (minutes > 9){
+        appendMinutes.innerHTML = minutes;
+      }
+    }
+  }
+</script>
+</body>
+</html>

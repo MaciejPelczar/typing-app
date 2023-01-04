@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<div th:replace="~{app/header :: header}"></div>
+<body>
+
+<div th:replace="~{app/header :: navbar}"></div>
+
+  <div class="container">
+    <div class="row col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="text-center">Menu</h2>
+        </div>
+        <div th:if="${param.success}">
+          <div class="alert alert-info">
+            <p>You have finished lesson <span th:text="${param.lessonNumb}"></span> on level <span th:text="${param.levelName}"></span>!</p>
+            <p> Your practise time: <span th:text="${param.time}"></span></p>
+            <p> Number of typing errors: <span th:text="${param.failsNumber}"></span></p>
+          </div>
+        </div>
+        <div class="card-body">
+          <form method="post"
+                role="form"
+                th:action="@{/menu/start}"
+                th:object="${exercise}">
+            <div class="form-group mb-3">
+              <label class="form-label">Level</label>
+              <select class="form-control"
+                     id="level"
+                     name="level"
+                     th:field="*{level}">
+                <option th:each="l : ${listLevel}" th:value="${l.id}" th:text="${l.name}"></option>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">Lesson Number</label>
+              <select class="form-control"
+                      id="number"
+                      name="number"
+                      th:field="*{number}">
+                <option th:each="n : ${#numbers.sequence(1, 10)}" th:value="${n}" th:text="${n}"></option>
+              </select>
+            </div>
+            <div class="form-group mb-3">
+              <button type="submit" class="btn btn-primary">Start</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br /><br />
+<div th:replace="~{app/footer :: footer}"></div>
+</body>
+</html>

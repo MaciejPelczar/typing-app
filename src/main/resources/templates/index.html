@@ -1,39 +1,21 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
-<div th:replace="app/header :: header"></div>
+      xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{app/header :: header}"></div>
 <body>
 
-<div th:replace="app/header :: navbar"></div>
+<div th:replace="~{app/header :: navbar}"></div>
 <div class="container">
-
     <div class="jumbotron bg-light">
         <h2 class="display-4 mt-5 mb-4 ms-2">Typing Application.</h2>
-
         <p class="lead ms-2">A web application that will allow you to test and improve your speed, touch typing skills,</p>
         <p class="lead ms-2">If you already have an account <a th:href="@{/login}" >Login.</a>
             In case you don't <a th:href="@{/register}" >Register!</a> </p>
-        <a class="btn btn-lg btn-primary" th:href="@{/typingMenu}" role="button">Let's start! &raquo;</a>
+        <a class="btn btn-lg btn-primary" th:href="@{/menu}" role="button">Let's start! &raquo;</a>
     </div>
-<!--    <div class="row">-->
-<!--        <div class="col-md-5">-->
-<!--            <div class="form-group">-->
-<!--                <form class="form-inline" th:action="@{/admin/posts/search}">-->
-<!--                    <div class="input-group">-->
-<!--                        <input type="text" class="form-control" name="query" />-->
-<!--                        <span class="input-group-btn">-->
-<!--                            <button class="btn btn-primary" type="submit"> Search</button>-->
-<!--                        </span>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
     <br />
-
 </div>
 <br /><br />
-<div th:replace="app/footer :: footer"></div>
+<div th:replace="~{app/footer :: footer}"></div>
 </body>
 </html>

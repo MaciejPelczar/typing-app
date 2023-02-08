@@ -13,9 +13,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RegistrationDto {
     private Long id;
-    @NotEmpty
+    @NotEmpty(message = "First name should not be empty")
     private String firstName;
-    @NotEmpty
+    @NotEmpty(message = "Last name should not be empty")
     private String lastName;
     @NotEmpty(message = "Email should not be empty")
     @Email

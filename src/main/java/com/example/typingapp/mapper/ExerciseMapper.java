@@ -2,7 +2,6 @@ package com.example.typingapp.mapper;
 
 import com.example.typingapp.dto.ExerciseDto;
 import com.example.typingapp.entity.Exercise;
-
 public class ExerciseMapper {
 
     //map Exercise entity to ExerciseDto

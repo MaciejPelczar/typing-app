@@ -36,10 +36,11 @@ public class WebSpringSecurity {
                                     .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
                                     .requestMatchers(new AntPathRequestMatcher("/menu/**")).hasAnyRole("ADMIN", "USER")
                                     .requestMatchers(new AntPathRequestMatcher("/lesson/**")).hasAnyRole("ADMIN", "USER")
+                                    .requestMatchers(new AntPathRequestMatcher("/history/**")).hasAnyRole("ADMIN", "USER")
                     )
                     .formLogin(form -> form
                             .loginPage("/login")
-                            .defaultSuccessUrl("/")
+                            .defaultSuccessUrl("/menu")
                             .loginProcessingUrl("/login")
                             .permitAll()
                     ).logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

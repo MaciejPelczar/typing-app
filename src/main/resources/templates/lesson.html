@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <div th:replace="~{app/header :: header}"></div>
 <body>
 <div th:replace="~{app/header :: navbar}"></div>
 <div class="container">
+  <br/><br/>
   <div class="row col-md-12">
     <div class="card">
       <div class="card-header mb-0">
@@ -23,7 +25,9 @@
             <label class="form-label">Exercise text</label>
             <div class="card shadow p-3 mb-1 bg-body rounded">
               <div class="card-body">
-                <output th:key type="text" id="originalText" th:text="*{text}">...></output>
+                <output th:key type="text" id="originalText" th:text="*{text}"
+                        onCopy="return false" onCut="return false" onDrag="return false"
+                >...</output>
               </div>
             </div>
           </div>
@@ -35,8 +39,16 @@
                   th:action="@{/lesson}"
                   th:object="${exercise}">
               <div class="mb-1">
-                <label for="inputText" class="form-label">You exercise text</label>
-                <textarea class="form-control"  rows="3"  id="inputText"  oninput="compareExercises()"></textarea>
+                <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <label for="inputText" class="form-label"> Rewrite the above text without any errors and press Enter </label>
+                <textarea class="form-control"  rows="3"  id="inputText"
+                          spellcheck="false" oninput="compareExercises()"></textarea>
+              </div>
+                <div th:unless="${#authorization.expression('hasRole(''ADMIN'')')}">
+                  <label for="inputText" class="form-label"> Rewrite the above text without any errors and press Enter </label>
+                  <textarea class="form-control"  rows="3"  id="inputText" onpaste="return false;"
+                            spellcheck="false" oninput="compareExercises()"></textarea>
+                </div>
               </div>
                 <textarea style="display: none;" id="time" name="time"></textarea>
                 <textarea style="display: none;" id="lessonNumb" name="lessonNumb" th:text="${exercise.number}"></textarea>
@@ -50,10 +62,10 @@
                     role="form"
                     th:action="@{/lesson}"
                     th:object="${exercise}">
-              <div class="form-group mb-2">
-                <button type="button" name="pause" id="pause" class="btn btn-primary">Pause</button>
-                <button type="submit" name="stop" id="stop" class="btn btn-primary" disabled>Reset</button>
-                <button type="submit" name="back" id="back" class="btn btn-primary">Back to menu</button>
+              <div class="form-group mb-2 mt-2">
+                <button type="button" name="pause" id="pause" class="btn col-1 btn-primary">Pause</button>
+                <button type="submit" name="stop" id="stop" class="btn col-1 btn-primary" disabled>Reset</button>
+                <button type="submit" name="back" id="back" class="btn col-1 btn-primary">Back to menu</button>
               </div>
         </form>
       </div>
@@ -75,6 +87,7 @@
   var originalText = document.getElementById('originalText');
 
   function compareExercises() {
+    document.querySelector('#originalText').disabled = true;
     var valueInput = inputText.value;
     var valueOriginal = originalText.value;
     let chars = text.split('');
@@ -83,7 +96,7 @@
     let charOriginal = text.charAt(lenghtInput - 1);
     if (lenghtInput <= text.length + 2) {
 
-      if (lenghtInput >= text.length+1) {
+      if (lenghtInput >= text.length + 1) {
         var minutes = document.getElementById('minutes').textContent;
         var sec = document.getElementById('seconds').textContent;
         var tens = document.getElementById('tens').textContent;

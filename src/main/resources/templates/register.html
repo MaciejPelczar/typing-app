@@ -11,14 +11,14 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Typing App</a>
+        <a class="navbar-brand fs-3" th:href="@{/}">Typing App</a>
         <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
                 class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
+            <ul class="navbar-nav position-absolute top-50 end-0 translate-middle-y  me-3">
+                <li class="nav-item fs-4">
                     <a aria-current="page"  class="nav-link active" th:href="@{/login}" >Login</a>
                 </li>
             </ul>
@@ -86,10 +86,10 @@
                         />
                         <p th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></p>
                     </div>
-                    <div class="form-group mb-3">
-                        <button type="submit" class="btn btn-primary">Register</button>
+                    <div class="form-group mb-3 text-center mt-4" >
+                        <button type="submit" class="btn col-4 btn-primary me-5">Register</button>
                         <span>Already registered?
-                            <a th:href="@{/login}"> Login Here</a>
+                            <a class="ms-5" th:href="@{/login}"> Login Here</a>
                         </span>
                     </div>
                 </form>

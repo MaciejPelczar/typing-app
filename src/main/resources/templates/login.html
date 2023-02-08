@@ -11,20 +11,20 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
   <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/}">Typing App</a>
+    <a class="navbar-brand fs-3" th:href="@{/}">Typing App</a>
     <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+      <ul class="navbar-nav position-absolute top-50 end-0 translate-middle-y  me-3">
+        <li class="nav-item fs-4">
           <a aria-current="page" class="nav-link active" th:href="@{/register}" >Register</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-<br /><br /><br /><br />
+<br /><br />
 <div class="container">
   <div class="row col-md-6 offset-md-3">
     <div th:if="${param.logout}">
@@ -35,7 +35,7 @@
     </div>
     <div class="card">
       <div class="card-header">
-        <h2 class="text-center">Login Form</h2>
+        <h2 class="text-center">Login</h2>
       </div>
       <div class="card-body">
         <form
@@ -63,10 +63,10 @@
                     placeholder="Enter password"
             />
           </div>
-          <div class="form-group-mb3">
-            <button type="submit" class="btn btn-primary">Submit</button>
+          <div class="form-group-mb3 text-center mt-4">
+            <button type="submit" class="btn col-4 btn-primary me-5">Submit</button>
             <span>Not registered yet?
-              <a th:href="@{/register}">Register/SignUp Here</a>
+              <a class="ms-5" th:href="@{/register}">Register/SignUp Here</a>
             </span>
           </div>
         </form>

@@ -1,21 +1,19 @@
 package com.example.typingapp.controller;
 
 
-import com.example.typingapp.dto.RegistrationDto;
 import com.example.typingapp.entity.Exercise;
+import com.example.typingapp.entity.User;
 import com.example.typingapp.service.ExerciseService;
 import com.example.typingapp.service.LevelService;
+import com.example.typingapp.service.UserService;
+import com.example.typingapp.util.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 public class TypingAppController {
@@ -25,14 +23,21 @@ public class TypingAppController {
         private ExerciseService exerciseService;
         private LevelService levelService;
 
-    public TypingAppController(ExerciseService exerciseService, LevelService levelService) {
+        private UserService userService;
+
+    public TypingAppController(ExerciseService exerciseService, LevelService levelService, UserService userService) {
         this.exerciseService = exerciseService;
         this.levelService = levelService;
+        this.userService = userService;
     }
 
     // handler method to handle http://localhost:8080/
         @GetMapping("/")
-        public String viewIndex(){
+        public String viewIndex(Model model) {
+//            String email = SecurityUtils.getCurrentUser().getUsername();
+//            User user = userService.findByEmail(email).orElse(null);
+//            String name =  user.getName();
+//            model.addAttribute("name", name);
             return "index";
         }
 
@@ -40,6 +45,10 @@ public class TypingAppController {
         public String showMenu(Model model){
             model.addAttribute("listLevel", levelService.findAll());
             model.addAttribute("exercise", new Exercise());
+            String email = SecurityUtils.getCurrentUser().getUsername();
+            User user = userService.findByEmail(email).orElse(null);
+            String name =  user.getName();
+            model.addAttribute("name", name);
             return "menu";
         }
 

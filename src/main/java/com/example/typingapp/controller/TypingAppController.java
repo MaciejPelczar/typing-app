@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TypingAppController {
 
     private static final Logger logger = LoggerFactory.getLogger(TypingAppController.class);
-
         private ExerciseService exerciseService;
         private LevelService levelService;
-
         private UserService userService;
 
     public TypingAppController(ExerciseService exerciseService, LevelService levelService, UserService userService) {
@@ -31,13 +29,8 @@ public class TypingAppController {
         this.userService = userService;
     }
 
-    // handler method to handle http://localhost:8080/
         @GetMapping("/")
         public String viewIndex(Model model) {
-//            String email = SecurityUtils.getCurrentUser().getUsername();
-//            User user = userService.findByEmail(email).orElse(null);
-//            String name =  user.getName();
-//            model.addAttribute("name", name);
             return "index";
         }
 
@@ -56,11 +49,7 @@ public class TypingAppController {
         public String startTest(@ModelAttribute("exercise") Exercise exercise, Model model){
             int number = exercise.getNumber();
             Long levelId = exercise.getLevel().getId();
-
             String parameters = "number="+number+"&id="+levelId;
-
-
-            logger.warn("Number : " + number +"   Id: "+ levelId);
             model.addAttribute("exercise", exerciseService.findByNumberAndLevel_Id(number, levelId));
             return "redirect:/lesson?"+parameters;
         }

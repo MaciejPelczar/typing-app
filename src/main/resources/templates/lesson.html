@@ -32,7 +32,16 @@
             </div>
           </div>
         </form>
+
+        <div>
+          <label  for="hint-text">Hint: </label>
+          <button class="text-primary fw-bold btn-outline-primary"  id="hint-text" name="hint-text" th:text="${exercise.text[0]}">...</button>
+        </div>
+
       </div>
+
+
+
           <div class="card-body">
             <form method="post"
                   role="form"
@@ -116,6 +125,17 @@
           str1 = str1 + chars[i];
         }
         document.getElementById('originalText').innerHTML = str.fontcolor('green') + "➤".fontcolor('green') + str1;
+
+        if (str1.charAt(0) == " "){
+          document.getElementById('hint-text').innerHTML = "Space";
+        }else if (str1.charAt(0) == ""){
+          document.getElementById('hint-text').innerHTML = "Enter";
+        }else{
+          document.getElementById('hint-text').innerHTML = str1.charAt(0);
+        }
+
+
+
         document.querySelector('#stop').disabled = false;
       } else {
         wrongInputCounter++;
@@ -127,6 +147,7 @@
         inputText.style.backgroundColor = '#F96262';
         // document.querySelector('#stop').disabled = true;
         document.getElementById("inputText").disabled = true;
+        document.getElementById('hint-text').innerHTML = "Backspace";
         document.addEventListener("keydown", KeyCheck);
         function KeyCheck(event) {
           var KeyID = event.keyCode;
